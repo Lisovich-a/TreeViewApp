@@ -1,0 +1,68 @@
+﻿<Window x:Class="TreeViewApp.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:TreeViewApp"
+        xmlns:viewModels="clr-namespace:TreeViewApp.ViewModels.V2"
+        xmlns:b="http://schemas.microsoft.com/xaml/behaviors"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800"
+        d:DataContext="{d:DesignInstance Type=viewModels:MainViewModel}">
+
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Resources.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!--<TreeView Grid.Row="0" Margin="5,5,5,0" ItemsSource="{Binding Path=Categories}">
+        </TreeView>-->
+
+        <ScrollViewer VerticalScrollBarVisibility="Auto">
+            <ItemsControl ItemsSource="{Binding Categories, Mode=OneWay}">
+
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+
+                        <StackPanel Orientation="Vertical"
+                                    VirtualizingStackPanel.IsVirtualizing="True" 
+                                    VirtualizingStackPanel.VirtualizationMode="Recycling"/>
+
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+
+
+                <ItemsControl.Style>
+                    <Style TargetType="ItemsControl">
+                        <Setter Property="ItemTemplate" Value="{StaticResource CategoryTemplate}"/>
+
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding InSearchMode}" Value="true">
+                                <Setter Property="ItemTemplate" Value="{StaticResource CategoryTemplateSearchMode}"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </ItemsControl.Style>
+
+            </ItemsControl>
+        </ScrollViewer>
+
+
+        <DockPanel Grid.Row="1">
+            <Button DockPanel.Dock="Left" Height="20" Width="50" Margin="5"
+                    Command="{Binding LoadCommand}">Load</Button>
+
+            <TextBox Height="20" Text="{Binding TextToSearch, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="0,5,5,5"/>
+        </DockPanel>
+
+    </Grid>
+</Window>

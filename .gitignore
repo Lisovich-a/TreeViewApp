@@ -1,0 +1,8 @@
+
+src/TreeViewApp/bin/
+
+src/TreeViewApp/obj/
+
+src/.vs/
+
+*.user
